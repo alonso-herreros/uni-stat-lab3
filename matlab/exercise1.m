@@ -15,7 +15,7 @@ disp("a) Probability of two people getting more than 15 undesired friend request
 x = poissrnd(2*lambdaX, N, 1); % Generate N samples of X3 ~ Poisson(2*lambdaX)
 disp("By built-in function:")
 disp(" Mean (should be close to 14) = " + mean(x));
-disp(" P(X3 >= 15)" + sum(x >= 15)/N);
+disp(" P(X3 >= 15) = " + sum(x >= 15)/N);
 
 % Now, using the step-by step processes defined in the custom function
 x_custom = zeros(N, 1); % Start the vector at it's final size
@@ -24,7 +24,7 @@ for i = 1:N % Simulate N times
 end
 disp("By custom simulation:");
 disp(" Mean (should be close to 14) = " + mean(x_custom));
-disp(" P(X3 >= 15)" + sum(x_custom >= 15)/N);
+disp(" P(X3 >= 15) = " + sum(x_custom >= 15)/N);
 disp(" ");
 
 
