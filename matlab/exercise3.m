@@ -1,4 +1,4 @@
-%% Undesired friend requests
+%% Computational processes
 disp('== 3. Computational processes ==');
 
 N = 10000; % number of simuXlations

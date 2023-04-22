@@ -1,4 +1,4 @@
-%% Undesired friend requests
+%% Exponential RVs with time
 disp('== 2. Exponential RVs with time ==');
 
 N = 10000; % number of simulations
