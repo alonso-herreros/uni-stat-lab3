@@ -12,19 +12,20 @@ lambdaX = 7; % requests/week
 
 disp("a) Probability of two people getting more than 15 undesired friend requests");
 % There is a built-in function to do exactly what we need
-x = poissrnd(2*lambdaX, N, 1); % Generate N samples of X3 ~ Poisson(2*lambdaX)
+x3 = poissrnd(2*lambdaX, N, 1); % Generate N samples of X3 ~ Poisson(2*lambdaX)
 disp("By built-in function:")
-disp(" Mean (should be close to 14) = " + mean(x));
-disp(" P(X3 >= 15) = " + sum(x >= 15)/N);
+disp(" Mean (should be close to 14) = " + mean(x3));
+disp(" P(X3 > 15) = " + sum(x3 > 15)/N);
 
 % Now, using the step-by step processes defined in the custom function
-x_custom = zeros(N, 1); % Start the vector at it's final size
+x3_custom = zeros(N, 1); % Start the vector at it's final size
 for i = 1:N % Simulate N times
-    x_custom(i) = custom_poisson(lambdaX) + custom_poisson(lambdaX); % Add the number of requests received by each person
+    % Add the number of requests received by each person
+    x3_custom(i) = custom_poisson(lambdaX) + custom_poisson(lambdaX);
 end
 disp("By custom simulation:");
-disp(" Mean (should be close to 14) = " + mean(x_custom));
-disp(" P(X3 >= 15) = " + sum(x_custom >= 15)/N);
+disp(" Mean (should be close to 14) = " + mean(x3_custom));
+disp(" P(X3 > 15) = " + sum(x3_custom > 15)/N);
 disp(" ");
 
 
@@ -35,17 +36,17 @@ x_matrix = poissrnd(lambdaX, N, 250);
 x_bools = (x_matrix >= 5) & (x_matrix <= 10);
 % Turn it into a vector of the number of people who received between 5 and 10 undesired friend requests, one entry per week
 y = sum(x_bools, 2);
-disp("Let Y = Number of students out of 250 who received between 5 and 10 undesired friend requests each => Y ~ B(250, P(5 <= X <= 10))")
+disp("Let Y = Number of students out of 250 who received between 5 and 10 undesired friend requests each")
+disp("Y ~ B(250, P(5 <= X <= 10))")
 disp("By built-in function:");
 disp(" Mean = " + mean(y));
-% If we call Y the number of people who received between 5 and 10 undesired friend requests, then Y ~ B(250, P(5 <= X <= 10))
 disp(" P(Y >= 180) = " + sum(y >= 180)/N);
 
 % Using the step-by-step function to simulate the problem step by step.
 x_matrix_custom = zeros(N, 250); % Start the vector at it's final size
 for i = 1:N % Simulate N times
-    for j = 1:250 % For each person
-        x_matrix_custom(i, j) = custom_poisson(lambdaX); % Generate a sample of X ~ Poisson(lambdaX)
+    for j = 1:250 % For each person, generate a sample of X ~ Poisson(lambdaX)
+        x_matrix_custom(i, j) = custom_poisson(lambdaX);
     end
 end
 % Now, it's the same process as above
