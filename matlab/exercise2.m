@@ -1,8 +1,7 @@
 %% Undesired friend requests
 disp('== 2. Exponential RVs with time ==');
 
-
-N = 10000; % number of simuXlations
+N = 10000; % number of simulations
 
 disp("a) Waiting time to login, less than 3 seconds");
 % X = Waiting time to login, in seconds
