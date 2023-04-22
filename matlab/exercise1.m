@@ -17,7 +17,7 @@ disp("By built-in function:")
 disp(" Mean (should be close to 14) = " + mean(x));
 disp(" P(X3 >= 15)" + sum(x >= 15)/N);
 
-% Now, using less optimized step-by step processes defined in the custom function
+% Now, using the step-by step processes defined in the custom function
 x_custom = zeros(N, 1); % Start the vector at it's final size
 for i = 1:N % Simulate N times
     x_custom(i) = custom_poisson(lambdaX) + custom_poisson(lambdaX); % Add the number of requests received by each person
@@ -35,13 +35,13 @@ x_matrix = poissrnd(lambdaX, N, 250);
 x_bools = (x_matrix >= 5) & (x_matrix <= 10);
 % Turn it into a vector of the number of people who received between 5 and 10 undesired friend requests, one entry per week
 y = sum(x_bools, 2);
-disp("Let Y = Number of students out of 250 who received between 5 and 10 undesired friend requests each ~ B(250, P(5 <= X <= 10))")
+disp("Let Y = Number of students out of 250 who received between 5 and 10 undesired friend requests each => Y ~ B(250, P(5 <= X <= 10))")
 disp("By built-in function:");
 disp(" Mean = " + mean(y));
 % If we call Y the number of people who received between 5 and 10 undesired friend requests, then Y ~ B(250, P(5 <= X <= 10))
 disp(" P(Y >= 180) = " + sum(y >= 180)/N);
 
-% Using the step-by-step function to simulate the problem step by step. This is very, very slow
+% Using the step-by-step function to simulate the problem step by step.
 x_matrix_custom = zeros(N, 250); % Start the vector at it's final size
 for i = 1:N % Simulate N times
     for j = 1:250 % For each person
@@ -67,7 +67,12 @@ function [n] = custom_poisson(lambda)
         % Add 1 to the number of requests received this week. At first it becomes 0. If the loop is repeated, it becomes 1, etc.
         n = n + 1;
         % Generate a random time t, according to the distribution of T3 ~ Exp(1/2*lambdaX). This is the time until the next undesired friend request.
-        t = exprnd(1/lambda);
+        % t = exprnd(1/lambda); <- this is a built-in function that does exactly what we need here, but I'm going to do it manually.
+        % X ~ Exp(1/lambda) -> F(x) = 1 - e^(-lambda*x)
+        % F(x) = U -> 1 - e^(-lambda*x) = U -> e^(-lambda*x) = 1 - U -> -lambda*x = ln(1 - U) -> x = -ln(1 - U)/lambda
+        % So, we generate a random number U ~ U(0, 1) and use it to generate a random time t ~ Exp(1/lambda)
+        U = rand();
+        t = -log(1 - U)/lambda;
         % Add the time until the next undesired friend request to the elapsed time
         elapsed = elapsed + t;
         % If this time is still before the end of the week, then this request was still received in the same week. The loop will repeat
