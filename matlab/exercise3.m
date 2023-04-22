@@ -1,7 +1,7 @@
 %% Computational processes
 disp('== 3. Computational processes ==');
 
-N = 10000; % number of simuXlations
+N = 10000; % number of simulations
 
 % T1, T2, T3 = Execution times of each processes in ms, Ti ~ Exp(lambdaT)
 lambdaT = 35; % 1/ms
